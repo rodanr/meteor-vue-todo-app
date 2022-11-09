@@ -22,6 +22,7 @@
             <span v-else>Hide Completed Tasks</span>
           </button>
         </div>
+        <div class="loading" v-if="!$subReady.tasks">Loading...</div>
         <ul class="tasks">
           <Task
             class="task"
@@ -43,7 +44,7 @@ import Vue from "vue";
 import Task from "./components/Task.vue";
 import TaskForm from "./components/TaskForm.vue";
 import LoginForm from "./components/LoginForm";
-import { TasksCollection } from "../api/TasksCollection";
+import { TasksCollection } from "../db/TasksCollection";
 import { Meteor } from "meteor/meteor";
 
 export default {
@@ -66,6 +67,9 @@ export default {
     },
   },
   meteor: {
+    $subscribe: {
+      tasks: [],
+    },
     tasks() {
       if (!this.currentUser) {
         return [];
